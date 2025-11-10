@@ -10,7 +10,7 @@ class HTTPHandlerCustomHeader(HTTPHandler):
         host: str,
         url: str,
         method: str = "GET",
-        secure: bool = True,
+        secure: bool = True,  # noqa FBT001, FBT002
         header_key_value_pairs: Optional[List[Tuple[str, str]]] = None,
         context: Optional[SSLContext] = None,
     ) -> None:
@@ -35,7 +35,7 @@ class HTTPHandlerCustomHeader(HTTPHandler):
         header_key_value_pairs represents arbitrary key value pairs which are put into the header
         """
         try:
-            import urllib.parse
+            import urllib.parse  # noqa PLC0415
 
             host = self.host
             h = self.getConnection(host, self.secure)
@@ -46,7 +46,7 @@ class HTTPHandlerCustomHeader(HTTPHandler):
                     sep = "&"
                 else:
                     sep = "?"
-                url = url + "%c%s" % (sep, data)
+                url = url + "%c%s" % (sep, data)  # noqa UP031
             h.putrequest(self.method, url)
             # support multiple hosts on one IP address...
             # need to strip optional :port from host, if present
