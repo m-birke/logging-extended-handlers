@@ -31,7 +31,7 @@ def test_1header_get_info():
 
 @pytest.mark.skip(reason="This test requires a running mockbin server")
 def test_2headers_get_warning():
-    log = _init_http_logger("GET", [("key1", "value1"),("key2", "value2")])
+    log = _init_http_logger("GET", [("key1", "value1"), ("key2", "value2")])
     log.warning("test warning msg")
 
 
