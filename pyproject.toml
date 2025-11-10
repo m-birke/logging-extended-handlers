@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
@@ -9,6 +9,7 @@ description = "Extending logging.handlers"
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
+license-files = ["LICENSE"]
 keywords = [
   "logging",
   "log",
@@ -22,10 +23,12 @@ keywords = [
   "mail",
 ]
 authors = [
-  { name = "mbirke", email = "wesci@web.de" },
+  { name = "m-birke", email = "wesci@web.de" },
 ]
 classifiers = [
+  "License :: OSI Approved :: MIT License",
   "Development Status :: 4 - Beta",
+  "Typing :: Typed",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
@@ -34,23 +37,35 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: Implementation :: CPython",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
 ]
-dependencies = []
+dependencies = [
+]
 
 [project.urls]
-Documentation = "https://github.com/m-birke/logging-handlers#readme"
-Issues = "https://github.com/m-birke/logging-handlers/issues"
-Source = "https://github.com/m-birke/logging-handlers"
+Changelog = "https://github.com/m-birke/logging-extended-handlers/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/m-birke/logging-extended-handlers#readme"
+Homepage = "https://github.com/m-birke/logging-extended-handlers"
+Issues = "https://github.com/m-birke/logging-extended-handlers/issues"
+Source = "https://github.com/m-birke/logging-extended-handlers"
+
+[tool.hatch]
+build.hooks.vcs.version-file = "src/logging_extended_handlers/_version.py"
+build.targets.wheel.packages = ["src/logging_extended_handlers/"]
 
 [tool.hatch.version]
-path = "src/logging_extended_handlers/__about__.py"
+source = "vcs"
+raw-options = {version_scheme = "guess-next-dev"}
 
 [tool.hatch.envs.default]
+path = "./.hatch/default"
 dependencies = [
   "coverage[toml]>=6.5",
   "pytest",
   "pytest-dependency",
   "pytest_socket",
+
 ]
 [tool.hatch.envs.default.scripts]
 test = "pytest {args:tests}"
@@ -65,36 +80,18 @@ cov = [
 ]
 
 [[tool.hatch.envs.all.matrix]]
-python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
 
 [tool.hatch.envs.types]
-dependencies = [
+path = "./.hatch/types"
+extra-dependencies = [
   "mypy>=1.0.0",
 ]
 [tool.hatch.envs.types.scripts]
 check = "mypy --install-types --non-interactive {args:src/logging_extended_handlers tests}"
 
-[tool.coverage.run]
-source_pkgs = ["logging_extended_handlers", "tests"]
-branch = true
-parallel = true
-omit = [
-  "src/logging_extended_handlers/__about__.py",
-]
-
-[tool.coverage.paths]
-logging_extended_handlers = ["src/logging_extended_handlers", "*/logging-extended-handlers/src/logging_extended_handlers"]
-tests = ["tests", "*/logging-extended-handlers/tests"]
-
-[tool.coverage.report]
-exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:",
-]
-
 [tool.ruff]
-target-version = "py37"
+target-version = "py38"
 line-length = 120
 
 [tool.ruff.lint]
@@ -135,4 +132,44 @@ ignore = [
   # Ignore complexity
   "C901", "PLR0911", "PLR0912", "PLR0913", "PLR0915",
 ]
-unfixable = []
+unfixable = [
+  # Don't touch unused imports
+  "F401",
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["logging_extended_handlers"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.per-file-ignores]
+# Tests can use magic values, assertions, and relative imports
+"tests/**/*" = ["PLR2004", "S101", "TID252"]
+
+[[tool.mypy.overrides]]
+module = [
+  "pytest",
+  "pytest_socket",
+]
+follow_untyped_imports = true
+#ignore_missing_imports = true
+
+[tool.coverage.run]
+source_pkgs = ["logging_extended_handlers", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/logging_extended_handlers/__about__.py",
+]
+
+[tool.coverage.paths]
+logging_extended_handlers = ["src/logging_extended_handlers", "*/logging-extended-handlers/src/logging_extended_handlers"]
+tests = ["tests", "*/logging-extended-handlers/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
