@@ -1,6 +1,6 @@
 # `logging-handlers` Changelog
 
-## 0.2.1 (TBD)
+## 0.2.1 (2025-11-10)
 
 - SMTP handler: make capacity param optional
 
