@@ -11,8 +11,10 @@ from typing import List, Optional
 
 
 class BufferingSMTPHandler(logging.handlers.BufferingHandler):
-    """Buffer for logging items. Sends all captured items via email when the flushing is triggered
-    (during tear down or manually) or the capacity is reached.
+    """Buffering logging handler which sends logs per mail.
+
+    Email is sent when the flushing is triggered:
+    through tear down, manually or exceeding of the buffer limit.
 
     If the flushing is triggered manually, an attachment can be added.
 
@@ -20,9 +22,10 @@ class BufferingSMTPHandler(logging.handlers.BufferingHandler):
     :param fromaddr: sender mail address
     :param toaddrs: recipient mail addresses
     :param subject: mail subject
+    :param capacity: number of log records to buffer, exceeding triggers flushing
     """
 
-    def __init__(self, mailhost: str, fromaddr: str, toaddrs: List[str], subject: str, capacity: int):
+    def __init__(self, mailhost: str, fromaddr: str, toaddrs: List[str], subject: str, capacity: int = 999):
         logging.handlers.BufferingHandler.__init__(self, capacity=capacity)
 
         self.mailhost = mailhost

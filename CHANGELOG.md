@@ -1,9 +1,13 @@
 # `logging-handlers` Changelog
 
+## 0.2.1 (TBD)
+
+- SMTP handler: make capacity param optional
+
 ## 0.2.0 (2025-03-23)
 
 - Support Python >= 3.8
-- Http handler: set default secure=True (security fist)
+- Http handler: set default secure=True (security first)
 - Bugfix: http handler put headers
 - CI/CD
 - Manual integration tests
