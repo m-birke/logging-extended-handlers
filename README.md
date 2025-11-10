@@ -13,13 +13,45 @@ Extending logging.handlers
 
 ## Table of Contents
 
+- [About](#about)
+- [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
+
+## About
+
+This package contains the following loggers:
+
+- `HTTPHandlerCustomHeader`: Like `logging.handlers.HTTPHandler` but with full freedom of the HTTP header
+- `BufferingSMTPHandler`: Buffers the logs like `logging.handlers.BufferingHandler` and sends it via smtp
+
+Similar projects with differen handlers:
+
+- [logging-nice-handlers](https://pypi.org/project/logging-nice-handlers/)
+- [external-logging-handlers](https://pypi.org/project/external-logging-handlers/)
+- [aws-logging-handlers](https://pypi.org/project/aws-logging-handlers/)
+- []()
+
+## Installation
+
+```console
+pip install logging-extended-handlers
+```
 
 ## Usage
 
 ```python
-# TODO
+logger = logging.getLogger()
+logger.setLevel("DEBUG")
+my_logger = MyLogger(...)
+my_logger.setLevel("INFO")
+my_formatter = logging.Formatter(
+    fmt="%(asctime)s %(levelname)s by %(funcName)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+    style="%",
+)
+my_logger.setFormatter(my_formatter)
+logger.addHandler(my_logger)
 ```
 
 ## License
