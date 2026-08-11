@@ -1,5 +1,9 @@
 # `logging-handlers` Changelog
 
+## 0.y.z (202x--)
+
+- Support Python 3.10 .. 3.14
+
 ## 0.2.1 (2025-11-10)
 
 - SMTP handler: make capacity param optional
