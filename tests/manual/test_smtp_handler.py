@@ -3,7 +3,7 @@ import logging
 from logging_extended_handlers import BufferingSMTPHandler
 
 
-def test_BufferingSMTPHandler():
+def test_buffering_smt_handler():
     logger = logging.getLogger()
     logger.setLevel("DEBUG")
     buffered_mail_handler = BufferingSMTPHandler(
@@ -22,4 +22,4 @@ def test_BufferingSMTPHandler():
 
 
 if __name__ == "__main__":
-    test_BufferingSMTPHandler()
+    test_buffering_smt_handler()
